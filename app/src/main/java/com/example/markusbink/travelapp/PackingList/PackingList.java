@@ -1,7 +1,6 @@
 package com.example.markusbink.travelapp.PackingList;
 
 import android.arch.persistence.room.Room;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.markusbink.travelapp.ActionBarActivity;
+import com.example.markusbink.travelapp.Constants;
 import com.example.markusbink.travelapp.Database.RoomDatabase;
 import com.example.markusbink.travelapp.R;
 
@@ -23,8 +23,6 @@ import java.util.ArrayList;
 public class PackingList extends ActionBarActivity {
 
     private static final String TAG = "PackingList";
-
-    private final String DATABASE_NAME = "packingListDB";
 
     private EditText editTextLuggage;
     private Button buttonLuggage;
@@ -43,15 +41,11 @@ public class PackingList extends ActionBarActivity {
         initActionBar();
         initListeners();
 
-        getSupportActionBar().setTitle("Packliste");
-
-
-
     }
 
     private RoomDatabase initDB() {
 
-        db = Room.databaseBuilder(PackingList.this, RoomDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
+        db = Room.databaseBuilder(PackingList.this, RoomDatabase.class, Constants.DATABASENAME).fallbackToDestructiveMigration().build();
         return db;
     }
 
@@ -81,11 +75,14 @@ public class PackingList extends ActionBarActivity {
     private void addNewItemToListView() {
 
         final String luggageItem = editTextLuggage.getText().toString();
+
+
+        if(!luggageItem.equals("")) {
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                if(!luggageItem.equals("")) {
+
                     PackingList_SingleItem packingItem = new PackingList_SingleItem();
                     packingItem.setItemName(luggageItem);
 
@@ -95,16 +92,18 @@ public class PackingList extends ActionBarActivity {
                         @Override
                         public void run() {
 
-
                             addItemToList(luggageItem);
                             editTextLuggage.setText("");
 
-
-                            Log.d(TAG, "run: Item added to ListView");
                         }
                     });
-                }}
+                }
+
         }).start();
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Bitte Textfeld ausfüllen.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void removeItemFromListView(final int position) {
@@ -116,17 +115,13 @@ public class PackingList extends ActionBarActivity {
 
                 db.packingListInterface().deleteItem(itemName);
 
-                Log.d(TAG, "Item removed from Database");
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         luggageList.remove(position);
                         luggageAdapter.notifyDataSetChanged();
 
-                        Log.d(TAG, "Item removed from ListView");
-
-                        Toast.makeText(getApplicationContext(), "Item has been removed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Eintrag wurde entfernt", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -138,8 +133,6 @@ public class PackingList extends ActionBarActivity {
     // Remove all Items from database and list
 
     public void deleteAllIListItems() {
-
-        Log.d(TAG, "deleteAllIListItems: deleted");
 
         new Thread(new Runnable() {
             @Override
@@ -157,9 +150,9 @@ public class PackingList extends ActionBarActivity {
                             luggageList.clear();
                             luggageAdapter.notifyDataSetChanged();
 
-                            Toast.makeText(getApplicationContext(), "All Items have been removed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Alle Einträge wurden entfernt", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "No Items to remove", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Keine Einträge gefunden.", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -200,16 +193,20 @@ public class PackingList extends ActionBarActivity {
     }
 
     private void initActionBar() {
-        getSupportActionBar().setTitle("PackingList");
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Packliste");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
 
     private void initUi() {
-        editTextLuggage = (EditText) findViewById(R.id.editText_luggage);
-        buttonLuggage = (Button) findViewById(R.id.button_add_luggage);
-        listViewLuggage = (ListView) findViewById(R.id.listView_luggage);
+        editTextLuggage = findViewById(R.id.editText_luggage);
+        buttonLuggage = findViewById(R.id.button_add_luggage);
+        listViewLuggage = findViewById(R.id.listView_luggage);
         luggageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,luggageList);
         listViewLuggage.setAdapter(luggageAdapter);
         initSavedItems();
@@ -221,12 +218,11 @@ public class PackingList extends ActionBarActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.packinglist_activity).setVisible(false);
         menu.findItem(R.id.deleteItems).setVisible(true).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 deleteAllIListItems();
-
                 return false;
             }
         });

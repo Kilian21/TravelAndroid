@@ -3,7 +3,43 @@
     <string name="vacation_name">Name der Reise eingeben</string>
     <string name="reise_planen">Reise planen</string>
     <string name="add_button">Hinzufügen</string>
+    <string name="success_headline">Herzlichen Glückwunsch!</string>
+    <string name="success_subheadline">Ihre Reise wurde erfolgreich erstellt.</string>
+    <string name="back_to_mainactivity">Zurück zur Eingabe</string>
+    <string name="date_start">Beginn der Reise</string>
+    <string name="date_end">Ende der Reise</string>
+    <string name="mainactivity_headline">Plane deine Reise</string>
+    <string name="packinglist_headline">Deine Packliste</string>
+    <string name="packinglist_item_placeholder">Gepäck eingeben</string>
+    <string name="budget">0 €</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    /*Routenplaner - Kilian*/
+    <string name="routeplaner_name">Routenplaner</string>
+    <string name="route_1">Route - 1</string>
+    <string name="route_2">Route - 2</string>
+    <string name="route_3">Route - 3</string>
+    <string name="configurate">Bearbeiten</string>
+    <string name="add_destination">+</string>
+    <string name="arrow_down">arrow down</string>
+    <string name="delete_all_icon_title">Delete</string>
+    <string name="next_destination">Nächstes Ziel</string>
+    <string name="start">Start</string>
+
+    <string-array name="transportation">
+        <item>(Wähle Verkehrsmittel)</item>
+        <item>Zu Fuß</item>
+        <item>Fahrrad</item>
+        <item>Roller</item>
+        <item>Auto</item>
+        <item>Bus</item>
+        <item>U-Bahn</item>
+        <item>S-Bahn</item>
+        <item>Zug</item>
+        <item>Nachtzug</item>
+        <item>Flugzeug</item>
+        <item>Schiff</item>
+    </string-array>
 </resources>

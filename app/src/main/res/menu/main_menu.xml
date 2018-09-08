@@ -25,5 +25,16 @@
         app:showAsAction="never"
         />
 
+    <item android:id="@+id/route_activity"
+        android:title="Routenplaner"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/weather_activity"
+        android:title="Wetter"
+        app:showAsAction="never"
+        />
+
+
 
 </menu>

@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deine Packliste"
+        android:text="@string/packinglist_headline"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -23,7 +23,7 @@
         android:id="@+id/editText_luggage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Gepäck eingeben"
+        android:hint="@string/packinglist_item_placeholder"
         />
 
     <Button
@@ -31,6 +31,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_button"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         />
 
     <ListView

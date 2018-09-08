@@ -17,6 +17,7 @@ public interface SpendingCalculatorDao {
     @Query("DELETE FROM spendingCalculator WHERE itemId = :id")
     void deleteSpendingItem(int id);
 
+
     @Query("SELECT * FROM spendingCalculator")
     SpendingCalculator_SingleItem[] selectAllSpendingItems();
 

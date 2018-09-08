@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/Route_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/route_1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/config_button_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configurate"
+        android:layout_toEndOf="@+id/Route_1"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/Route_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/route_2"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_marginTop="65dp"/>
+
+    <Button
+        android:id="@+id/config_button_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configurate"
+        android:layout_toEndOf="@+id/Route_2"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/Route_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/route_3"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_marginTop="125dp"/>
+
+    <Button
+        android:id="@+id/config_button_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configurate"
+        android:layout_toEndOf="@+id/Route_3"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="120dp"/>
+
+</RelativeLayout>

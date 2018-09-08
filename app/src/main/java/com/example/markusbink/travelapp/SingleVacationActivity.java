@@ -3,15 +3,11 @@ package com.example.markusbink.travelapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.markusbink.travelapp.PackingList.PackingList;
+import com.example.markusbink.travelapp.MainActivity.MainActivity;
 
 
 public class SingleVacationActivity extends ActionBarActivity {
@@ -25,14 +21,30 @@ public class SingleVacationActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singlevacation);
 
-        getSupportActionBar().setTitle("SingleVacationActivity");
+        initUi();
+        initActionBar();
+        initExtras();
+        initListeners();
+
+    }
+
+
+    private void initUi() {
+        textViewVacationName = findViewById(R.id.textview_vacation_name);
+        textViewStartDate =  findViewById(R.id.textview_start_date);
+        textViewEndDate =  findViewById(R.id.textview_end_date);
+        buttonBackButton = findViewById(R.id.button_back_startactivity);
+    }
+
+    private void initActionBar() {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        textViewVacationName = (TextView) findViewById(R.id.textview_vacation_name);
-        textViewStartDate = (TextView) findViewById(R.id.textview_start_date);
-        textViewEndDate = (TextView) findViewById(R.id.textview_end_date);
-        buttonBackButton = (Button) findViewById(R.id.button_back_startactivity);
-
+    private void initExtras() {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -44,10 +56,10 @@ public class SingleVacationActivity extends ActionBarActivity {
             textViewVacationName.setText(vacationName);
             textViewStartDate.setText(startDate);
             textViewEndDate.setText(endDate);
-
-
         }
+    }
 
+    private void initListeners() {
         buttonBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,10 +69,7 @@ public class SingleVacationActivity extends ActionBarActivity {
 
 
         });
-
-
     }
-
 
 
 

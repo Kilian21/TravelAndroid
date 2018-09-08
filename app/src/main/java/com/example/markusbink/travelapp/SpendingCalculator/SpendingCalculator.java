@@ -32,12 +32,16 @@ public class SpendingCalculator extends ActionBarActivity {
     private SpendingCalculator_SingleItem[] spendingList;
     private SpendingCalculator_Adapter arrayAdapter;
     private RoomDatabase db;
+    private String budget = "250";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spendingcalculator);
         initDB();
+
+        Log.d(TAG, "kostenrechner geöffnet");
         initUi();
         initActionBar();
         initListeners();
@@ -54,7 +58,7 @@ public class SpendingCalculator extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                addSingleSpendingToListView();
+                    addSingleSpendingToListView();
 
             }
         });
@@ -70,9 +74,9 @@ public class SpendingCalculator extends ActionBarActivity {
 
     }
 
-    private void increaseTotalValue(int amount) {
+    private void increaseTotalValue(double amount) {
 
-        int totalPrice = Integer.parseInt(textViewTotal.getText().toString());
+        double totalPrice = Double.parseDouble(textViewTotal.getText().toString());
         totalPrice += amount;
 
         try {
@@ -80,24 +84,36 @@ public class SpendingCalculator extends ActionBarActivity {
 
         }
         catch(Exception e) {
-            Log.e(TAG, "Fatal Exception", e);
+            Log.e(TAG, "Increase Total Value Exception", e);
         }
+
 
     }
 
 
-    private void decreaseTotalValue(int amount) {
+    private void decreaseTotalValue(double amount) {
 
-        int totalPrice = Integer.parseInt(textViewTotal.getText().toString());
-        totalPrice -= amount;
+        double totalPrice = Double.parseDouble(textViewTotal.getText().toString());
 
-        try {
-            textViewTotal.setText(String.valueOf(totalPrice));
 
+        if(totalPrice > 0) {
+            totalPrice -= amount;
+            Toast.makeText(getApplicationContext(), totalPrice + "übrig", Toast.LENGTH_SHORT).show();
+
+            try {
+                textViewTotal.setText(String.valueOf(totalPrice));
+
+            }
+            catch(Exception e) {
+                Log.e(TAG, "Decrease Total Value Exception", e);
+            }
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Dein Budget ist verbraucht.", Toast.LENGTH_SHORT).show();
         }
-        catch(Exception e) {
-            Log.e(TAG, "Fatal Exception", e);
-        }
+
+
+
 
     }
 
@@ -106,9 +122,10 @@ public class SpendingCalculator extends ActionBarActivity {
     private void addSingleSpendingToListView() {
 
         final String labelItem = editTextLabel.getText().toString();
-        final String priceItem = editTextPrice.getText().toString();
 
 
+        //Replaces comma as decimal separator with a dot
+        final String priceItem = editTextPrice.getText().toString().replace(',', '.');
 
         if(!labelItem.equals("") && !priceItem.equals("")) {
 
@@ -119,8 +136,6 @@ public class SpendingCalculator extends ActionBarActivity {
 
 
                     final SpendingCalculator_SingleItem spendingItem = new SpendingCalculator_SingleItem(labelItem, priceItem);
-
-                    Log.d(TAG, "run: addSingleSpendingToListView2");
 
                     // Sets the ID of the newest element in the list
                     try {
@@ -134,23 +149,15 @@ public class SpendingCalculator extends ActionBarActivity {
                         Log.e(TAG, "Fatal Exception", e);
                     }
 
-
-                    Log.d(TAG, "run: addSingleSpendingToListView3");
-
-
-
                     db.spendingCalculatorInterface().insertItem(spendingItem);
-                    Log.d(TAG, "run: addSingleSpendingToView Method called");
 
-                    Log.d(TAG, "run: Item added to Database");
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-
                             addItemToList(spendingItem);
-                            decreaseTotalValue(Integer.parseInt(priceItem));
+                            decreaseTotalValue(Double.parseDouble(priceItem));
                             editTextLabel.setText("");
                             editTextPrice.setText("");
 
@@ -167,6 +174,7 @@ public class SpendingCalculator extends ActionBarActivity {
         }
 
 
+
     }
 
     // Remove a single item from database and list
@@ -174,8 +182,9 @@ public class SpendingCalculator extends ActionBarActivity {
 
         SpendingCalculator_SingleItem singleItem = (SpendingCalculator_SingleItem)listView.getItemAtPosition(position);
         final int listViewPosition = singleItem.getItemId();
+        final String listViewName = singleItem.getName();
 
-        final int itemPrice = Integer.parseInt(singleItem.getPrice());
+        final double itemPrice = Double.parseDouble(singleItem.getPrice());
 
 
 
@@ -186,8 +195,6 @@ public class SpendingCalculator extends ActionBarActivity {
 
                 db.spendingCalculatorInterface().deleteSpendingItem(listViewPosition);
 
-                Log.d(TAG, "Item removed from Database");
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -195,10 +202,7 @@ public class SpendingCalculator extends ActionBarActivity {
                         removeSingleSpending(position);
                         increaseTotalValue(itemPrice);
 
-                        Log.d(TAG, "Item removed from ListView");
-
-                        //Toast.makeText(getApplicationContext(), "Item has been removed", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext(), "Item " + listViewPosition + " has been removed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Eintrag wurde entfernt.", Toast.LENGTH_SHORT).show();
 
 
 
@@ -226,8 +230,6 @@ public class SpendingCalculator extends ActionBarActivity {
     // Deletes all items in DB and List
     private void deleteAllListItems() {
 
-        Log.d(TAG, "deleteAllIListItems: deleted");
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -244,9 +246,12 @@ public class SpendingCalculator extends ActionBarActivity {
                             arrayList.clear();
                             arrayAdapter.notifyDataSetChanged();
 
-                            Toast.makeText(getApplicationContext(), "All Items have been removed", Toast.LENGTH_SHORT).show();
+                            textViewTotal.setText(budget);
+
+
+                            Toast.makeText(getApplicationContext(), "Alle Einträge wurden entfernt.", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "No Items to remove", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Keine Einträge gefunden.", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -266,7 +271,7 @@ public class SpendingCalculator extends ActionBarActivity {
         editTextLabel = (EditText)findViewById(R.id.editText_label);
         editTextPrice = (EditText)findViewById(R.id.editText_price);
         textViewTotal = (TextView)findViewById(R.id.textView_total);
-        textViewTotal.setText("250");
+        textViewTotal.setText(budget);
         buttonAdd = (Button)findViewById(R.id.button_add_price);
         listView = (ListView)findViewById(R.id.listView_prices);
         arrayAdapter = new SpendingCalculator_Adapter(SpendingCalculator.this, R.layout.singleitem_spendingcalculator, arrayList);
@@ -289,12 +294,12 @@ public class SpendingCalculator extends ActionBarActivity {
 
                 Log.d(TAG, "run: init saved items");
 
-                int spendingAmount = 0;
-                int currentTotal = Integer.parseInt(textViewTotal.getText().toString());
+                double spendingAmount = 0;
+                double currentTotal = Double.parseDouble(textViewTotal.getText().toString());
 
                 for(SpendingCalculator_SingleItem singleItem : spendingList) {
 
-                    spendingAmount += Integer.parseInt(singleItem.getPrice());
+                    spendingAmount += Double.parseDouble(singleItem.getPrice());
 
                 }
 
@@ -310,7 +315,9 @@ public class SpendingCalculator extends ActionBarActivity {
 
     //Change Title
     private void initActionBar() {
-        getSupportActionBar().setTitle("Kostenrechner");
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Kostenrechner");
+        }
     }
 
     //Set Delete-Icon and OnClickListener for it

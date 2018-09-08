@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".MainActivity.MainActivity"
     android:orientation="vertical"
     android:padding="25dp"
     android:gravity="center">
@@ -13,7 +13,7 @@
         android:id="@+id/textview_vacation_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Plane deine Reise"
+        android:text="@string/mainactivity_headline"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -28,36 +28,42 @@
         android:hint="@string/vacation_name"
         />
 
-    <LinearLayout
+
+
+
+    <TextView
+        android:id="@+id/edittext_start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
-        >
+        android:hint="@string/date_start"
+        android:background="#eee"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:id="@+id/edittext_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/date_end"
+        android:background="#eee"
+        android:padding="16dp"
+        android:layout_marginTop="10dp"
+        android:inputType="none"
+        android:textSize="20sp"
+        />
 
-        <EditText
-            android:id="@+id/edittext_start_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="von"
-            android:layout_weight="0.5"
-            android:inputType="date"
-            />
-        <EditText
-            android:id="@+id/edittext_end_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="bis"
-            android:layout_weight=".5"
-            android:inputType="date"
-            />
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/button_plan_vacation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/reise_planen"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
         />
 
 </LinearLayout>

@@ -44,14 +44,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_button"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ListView
         android:id="@+id/listView_prices"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.25"/>
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/border_bottom_accent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,23 +77,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Summe"
-            android:layout_weight="0.25"
+            android:layout_weight="0.5"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000"
             />
 
         <TextView
-            android:id="@+id/textView_summe_price"
+            android:id="@+id/textView_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="300 €"
-            android:layout_weight="0.75"
+            android:hint="@string/budget"
+            android:layout_weight="0.5"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end"
             android:textColor="@color/colorAccent"
             />
 
+    </LinearLayout>
     </LinearLayout>
 
 

@@ -8,6 +8,34 @@
     android:padding="25dp"
     >
 
+    <TextView
+        android:id="@+id/success_message_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/success_headline"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/success_message_subheadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/success_subheadline"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/success_message_headline"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/border_bottom_accent"
+        android:layout_above="@+id/textview_vacation_name"
+        />
+
+
 
     <TextView
         android:id="@+id/textview_vacation_name"
@@ -18,7 +46,9 @@
         android:textStyle="bold"
         android:textAllCaps="true"
         android:textColor="#000"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="20dp"
+        android:layout_below="@id/success_message_subheadline"
         />
 
     <LinearLayout
@@ -37,7 +67,7 @@
             android:id="@+id/textview_startdate_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Startdatum"
+            android:text="@string/date_start"
             android:layout_weight="0.5"
             android:textStyle="bold"
             />
@@ -65,7 +95,7 @@
             android:id="@+id/textview_enddate_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enddatum"
+            android:text="@string/date_end"
             android:layout_weight="0.5"
             android:textStyle="bold"
             />
@@ -85,7 +115,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/enddate_wrapper"
         android:layout_marginTop="20dp"
-        android:text="Zurück zur Eingabe"
+        android:text="@string/back_to_mainactivity"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
         />
 
 
